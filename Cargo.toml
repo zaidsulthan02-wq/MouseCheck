@@ -1,0 +1,37 @@
+[package]
+name = "mousecheck"
+version = "0.1.0"
+edition = "2024"
+description = "Honest, measurement-based mouse diagnostics: polling stability, hitches, sensor tracking, accuracy, DPI, switch and wheel faults."
+license = "MIT"
+repository = "https://github.com/zaidsulthan02-wq/MouseCheck"
+readme = "README.md"
+keywords = ["mouse", "polling-rate", "diagnostics", "raw-input", "gaming"]
+categories = ["hardware-support", "gui"]
+
+[dependencies]
+chrono = "0.4.45"
+eframe = "0.36.2"
+egui = "0.36.2"
+egui_plot = "0.37.0"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
+windows-sys = { version = "0.61.2", features = [
+    "Win32_Foundation",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_Input",
+    "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_System_Performance",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Threading",
+    "Win32_Devices_HumanInterfaceDevice",
+    "Win32_Storage_FileSystem",
+    "Win32_Security",
+    "Win32_System_SystemInformation",
+    "Win32_Devices_DeviceAndDriverInstallation",
+    "Win32_Graphics_Gdi",
+] }
+
+[profile.release]
+lto = "thin"
+strip = true

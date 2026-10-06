@@ -1,0 +1,30 @@
+name: Release
+
+# Push a tag like v0.1.0 to build MouseCheck.exe from source and publish it on the Releases page.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test --release
+      - run: cargo build --release
+      - name: Package
+        shell: pwsh
+        run: |
+          Copy-Item target/release/mousecheck.exe MouseCheck.exe
+          $hash = (Get-FileHash MouseCheck.exe -Algorithm SHA256).Hash.ToLower()
+          "$hash  MouseCheck.exe" | Out-File -Encoding ascii MouseCheck.exe.sha256
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            MouseCheck.exe
+            MouseCheck.exe.sha256
+          generate_release_notes: true
